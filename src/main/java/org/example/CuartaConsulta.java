@@ -10,7 +10,6 @@ import java.net.http.HttpResponse;
 
 // Consulta: Lugar de nacimiento y signo del zodiaco del actor que hacía de Goku en la pelicula "Dragonball Evolution"
 
-
 /**
  * Clase que realiza consultas relacionadas con la película "Dragonball Evolution" y el actor que interpreta a Goku.
  */
@@ -32,7 +31,7 @@ public class CuartaConsulta {
      * @return El IMDb ID de la película.
      */
     public static String obtenerPeliculaPorNombre() {
-        String res = "";
+        String resultado = "";
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -46,18 +45,18 @@ public class CuartaConsulta {
                     .ofString());
             JSONObject jsonResponse = new JSONObject(response.body());
 
-            // Obtener el array "results" de la respuesta JSON
+            // Obtengo el array "results" de la respuesta JSON
             JSONArray resultsArray = jsonResponse.getJSONArray("results");
 
-            // Verificar si hay al menos un elemento en el array
+            // Compruebo si hay al menos un elemento en el array
             if (!resultsArray.isEmpty()) {
-                // Obtener el IMDb ID directamente del primer elemento del array
+                // Obtengo el IMDb ID directamente del primer elemento del array
                 String movieId = resultsArray.getJSONObject(0).getString("imdb_id");
                 System.out.println("IMDb ID: " + movieId);
 
-                res = movieId;
+                resultado = movieId;
 
-                // Imprimir la respuesta JSON formateada
+                // Imprimo la respuesta JSON formateada
                 System.out.println(jsonResponse.toString(2));
             } else {
                 System.out.println("No se encontraron resultados para la película.");
@@ -65,7 +64,7 @@ public class CuartaConsulta {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return res;
+        return resultado;
     }
 
     /**
@@ -75,11 +74,10 @@ public class CuartaConsulta {
      * @return El IMDb ID del actor que interpreta a Goku.
      */
     public static String obtenerActorGokuIdPorImdbId(String imdbIdPelicula) {
-
         String actor = "";
 
         try {
-            // Construir la solicitud HTTP para obtener el elenco de la película con el IMDb ID
+            // Construyo la solicitud HTTP para obtener el elenco de la película con el IMDb ID
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://moviesminidatabase.p.rapidapi.com/movie/id/" + imdbIdPelicula + "/cast/"))
                     .header("X-RapidAPI-Key", APIConfig.API_KEY)
@@ -87,7 +85,7 @@ public class CuartaConsulta {
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
 
-            // Realizar la solicitud HTTP y obtener la respuesta en formato JSON
+            // Realizo la solicitud HTTP y obtener la respuesta en formato JSON
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers
                     .ofString());
             JSONObject jsonResponse = new JSONObject(response.body());
@@ -95,7 +93,7 @@ public class CuartaConsulta {
             if (jsonResponse.has("results")) {
                 JSONArray rolesArray = jsonResponse.getJSONObject("results").getJSONArray("roles");
 
-                // Buscar el actor que interpreta el papel de Goku
+                // Busco al actor que interpreta el papel de Goku
                 for (int i = 0; i < rolesArray.length(); i++) {
                     JSONObject role = rolesArray.getJSONObject(i);
 
@@ -125,7 +123,7 @@ public class CuartaConsulta {
      */
     public static String obtenerInfoActorGoku(String imdbIdActor) {
         try {
-            // Construir la solicitud HTTP para obtener la información del actor con el IMDb ID
+            // Hago la solicitud HTTP para obtener la información del actor con el IMDb ID
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://moviesminidatabase.p.rapidapi.com/actor/id/" + imdbIdActor + "/"))
                     .header("X-RapidAPI-Key", APIConfig.API_KEY)
@@ -133,7 +131,7 @@ public class CuartaConsulta {
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
 
-            // Realizar la solicitud HTTP y obtener la respuesta en formato JSON
+            // Hago la solicitud HTTP y obtener la respuesta en formato JSON
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers
                     .ofString());
             JSONObject jsonResponse = new JSONObject(response.body());
@@ -141,12 +139,12 @@ public class CuartaConsulta {
             if (jsonResponse.has("results")) {
                 JSONObject actor = jsonResponse.getJSONObject("results");
 
-                // Crear un nuevo JSONObject solo con los campos requeridos
+                // Creo un nuevo JSONObject solo con los campos requeridos
                 JSONObject selectedFields = new JSONObject();
                 selectedFields.put("birth_place", actor.getString("birth_place"));
                 selectedFields.put("star_sign", actor.getString("star_sign"));
 
-                // Devolver la representación JSON seleccionada
+                // Devuelvo la representación JSON seleccionada
                 return selectedFields.toString(2);
             } else {
                 return "La respuesta no contiene resultados.";

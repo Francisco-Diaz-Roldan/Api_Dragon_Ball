@@ -33,7 +33,7 @@ public class TerceraConsulta {
      * @return El ID de la serie "Dragon Ball".
      */
     private static String obtenerIdSerie() {
-        String seriesId = "";
+        String IdSerie = "";
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://moviesminidatabase.p.rapidapi.com/series/idbyTitle/Dragon%20Ball/"))
@@ -53,7 +53,7 @@ public class TerceraConsulta {
 
                 // Comprueba que el título sea "Dragon Ball"
                 if ("Dragon Ball".equalsIgnoreCase(title)) {
-                    seriesId = serie.getString("imdb_id"); // Guarda el ID de la serie
+                    IdSerie = serie.getString("imdb_id"); // Guarda el ID de la serie
                     break;  // Termina la iteración cuando encuentra la serie "Dragon Ball"
                 }
             }
@@ -61,7 +61,7 @@ public class TerceraConsulta {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return seriesId;
+        return IdSerie;
     }
 
     /**

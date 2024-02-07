@@ -48,11 +48,11 @@ public class SegundaConsulta {
                 JSONObject serie = jsonArray.getJSONObject(i);
                 String title = serie.getString("title");
 
-                // Verificar si el título es "Dragon Ball"
+                // Compruebo que el título sea "Dragon Ball"
                 if ("Dragon Ball".equalsIgnoreCase(title)) {
-                    // Almacena el ID de la serie
+                    // Guardo el ID de la serie
                     idSerie = serie.getString("imdb_id");
-                    break;  // Termina la iteración una vez que se encuentra la serie "Dragon Ball"
+                    break;  // La iteración acaba cuando encuentra la serie "Dragon Ball"
                 }
             }
         } catch (Exception e) {

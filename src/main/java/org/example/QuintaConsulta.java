@@ -45,10 +45,10 @@ public class QuintaConsulta {
 
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        // Analiza la respuesta JSON
+        // Analizo la respuesta JSON
         JSONObject jsonResponse = new JSONObject(response.body());
 
-        // Comprueba que la respuesta contiene el campo "results" y obtener el número de películas
+        // Compruebo que la respuesta contiene el campo "results" y obtener el número de películas
         if (jsonResponse.has("results")) {
             int numPeliculas = jsonResponse.getJSONArray("results").length();
             System.out.println("Número de películas registradas en 1982: " + numPeliculas);

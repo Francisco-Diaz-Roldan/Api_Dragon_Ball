@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 
 // Consulta: De ese mismo año es la película Postergeist, el primer gran éxito de Steven Spielberg como productor,
 // que participó en los premios Oscars al año siguiente sin ser ganadora. ¿A qué apartado fue nominada?
-// ¿Que otro premio ganó ese año?
+// ¿Qué otro premio ganó ese año?
 
 /**
  * Clase que realiza consultas relacionadas con la película Poltergeist y sus premios.
@@ -24,11 +24,11 @@ public class SextaConsulta {
      */
     public static void main(String[] args) {
         try {
-            // Obtener el ID de la película Poltergeist
+            // Obtengo el ID de la película Poltergeist
             String idPoltergeist = obtenerIdPoltergeist();
             System.out.println("ID de Poltergeist: " + idPoltergeist);
 
-            // Obtener y mostrar los premios de la película
+            // Obtengo y enseño los premios de la película
             obtenerPremios(idPoltergeist);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -54,12 +54,12 @@ public class SextaConsulta {
 
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        // Analiza la respuesta JSON
+        // Analizo la respuesta JSON
         JSONObject jsonResponse = new JSONObject(response.body());
 
-        // Comprueba si la respuesta contiene el campo "results"
+        // Compruebo que la respuesta contenga el campo "results"
         if (jsonResponse.has("results")) {
-            // Obtiene el ID directamente del primer elemento del array
+            // Obtengo el ID directamente del primer elemento del array
             idPoltergeist = jsonResponse.getJSONArray("results").getJSONObject(0).getString("imdb_id");
         } else {
             System.out.println("No se encontraron resultados para la película Poltergeist.");
